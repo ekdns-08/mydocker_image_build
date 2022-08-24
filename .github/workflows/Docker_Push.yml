@@ -23,4 +23,4 @@ jobs:
           context: .
           file: Dockerfile
           push: true
-          tags: ekdns-08/myrepo:latest
+          tags: ekdns/myrepo:latest
