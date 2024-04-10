@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pod Information Page</title>
+</head>
+<body>
+    <h1>Pod Information</h1>
+    <div id="pod-info">Loading...</div>
+    <script>
+        fetch('/pod-info')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('pod-info').innerHTML = `Pod Name: ${data.podName}<br>Pod IP: ${data.podIP}`;
+            });
+    </script>
+</body>
+</html>
