@@ -3,21 +3,23 @@
 # ADD index.html /usr/share/nginx/html
 
 
-# Python 이미지를 기반으로 함
-FROM python:3.8-slim
+FROM nginx:latest
 
-# 작업 디렉토리 설정
-WORKDIR /app
+RUN rm /usr/share/nginx/html/index.html
 
-# 필요한 파일 복사
-COPY app.py ./
-COPY requirements.txt ./
+RUN echo '<!DOCTYPE html>' > /usr/share/nginx/html/index.html \
+    && echo '<html>' >> /usr/share/nginx/html/index.html \
+    && echo '<head>' >> /usr/share/nginx/html/index.html \
+    && echo '<title>Nginx Version</title>' >> /usr/share/nginx/html/index.html \
+    && echo '</head>' >> /usr/share/nginx/html/index.html \
+    && echo '<body>' >> /usr/share/nginx/html/index.html \
+    && echo '<h1>1. Nginx Server Version:</h1>' >> /usr/share/nginx/html/index.html \
+    && nginx -v 2>&1 | sed 's/nginx version: //g' >> /usr/share/nginx/html/index.html \
+    && echo '</body>' >> /usr/share/nginx/html/index.html \
+    && echo '</html>' >> /usr/share/nginx/html/index.html
 
-# 필요한 Python 패키지 설치
-RUN pip install --no-cache-dir -r requirements.txt
+RUN touch /tmp/new-version
 
-# 컨테이너가 리스닝할 포트 지정
 EXPOSE 80
 
-# 애플리케이션 실행
-CMD ["python", "./app.py"]
+CMD ["nginx", "-g", "daemon off;"]
